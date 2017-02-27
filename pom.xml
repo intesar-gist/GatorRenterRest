@@ -58,14 +58,63 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>DEV</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <environment>DEV</environment>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>PROD</id>
+            <properties>
+                <environment>PROD</environment>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <finalName>GatorRenter</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>config/${environment}</directory>
+                            <targetPath>WEB-INF/</targetPath>
+                            <includes>
+                                <include>applicationContext.xml</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Build-Number>${project.version}</Build-Number>
+                            <Version>${project.version}</Version>
+                            <Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
+                        </manifestEntries>
+                    </archive>
+
                 </configuration>
             </plugin>
             <plugin>
