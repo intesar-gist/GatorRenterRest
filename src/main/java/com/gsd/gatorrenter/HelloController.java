@@ -1,16 +1,19 @@
 package com.gsd.gatorrenter;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.stereotype.Component;
 
-@Controller
-@RequestMapping("/")
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+@Path("spring-hello")
+@Component
 public class HelloController {
-	@RequestMapping(method = RequestMethod.GET)
-	public String printWelcome(ModelMap model) {
-		model.addAttribute("message", "Hello world!");
-		return "hello";
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getHello() {
+		return "hello world";
 	}
 }
