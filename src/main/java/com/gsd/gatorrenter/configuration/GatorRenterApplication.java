@@ -1,4 +1,4 @@
-package com.gsd.gatorrenter;
+package com.gsd.gatorrenter.configuration;
 
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.internal.JerseyResourceContext;

@@ -1,4 +1,4 @@
-package com.gsd.gatorrenter;
+package com.gsd.gatorrenter.controller;
 
 import org.springframework.stereotype.Component;
 
