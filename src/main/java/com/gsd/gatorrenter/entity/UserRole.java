@@ -1,4 +1,4 @@
-package com.gsd.gatorrenter.model;
+package com.gsd.gatorrenter.entity;
 
 import javax.persistence.*;
 
@@ -8,9 +8,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user_roles")
 public class UserRole {
+
     private int id;
     private String roleName;
     private String roleDescription;
+
+    public UserRole() {
+    }
 
     @Id
     @Column(name = "id")

@@ -1,4 +1,6 @@
-package com.gsd.gatorrenter.model;
+package com.gsd.gatorrenter.entity;
+
+import com.gsd.gatorrenter.dto.ApartmentDto;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -338,6 +340,12 @@ public class Apartment {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+
+    public ApartmentDto asDto(Apartment apartment) {
+        ApartmentDto apartmentDto = new ApartmentDto(apartment);
+        return apartmentDto;
     }
 
     @Override

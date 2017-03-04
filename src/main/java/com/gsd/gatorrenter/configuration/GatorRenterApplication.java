@@ -13,8 +13,6 @@ public class GatorRenterApplication extends ResourceConfig {
      * Register JAX-RS application components.
      */
     public GatorRenterApplication() {
-        register(RequestContextFilter.class);
-        register(JerseyResourceContext.class);
         packages("com.gsd.gatorrenter");
     }
 }

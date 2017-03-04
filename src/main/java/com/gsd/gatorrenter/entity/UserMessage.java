@@ -1,4 +1,4 @@
-package com.gsd.gatorrenter.model;
+package com.gsd.gatorrenter.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
