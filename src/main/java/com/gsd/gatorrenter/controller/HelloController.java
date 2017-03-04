@@ -5,13 +5,11 @@ import com.gsd.gatorrenter.manager.ApartmentManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.*;
+import javax.ws.rs.core.Response;
 
 @Path("/health")
 @Component

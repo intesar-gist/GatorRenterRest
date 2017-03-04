@@ -5,14 +5,15 @@ import com.gsd.gatorrenter.entity.Apartment;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * Created by Intesar on 3/4/2017.
  */
 @XmlAccessorType(XmlAccessType.PROPERTY)
-@XmlRootElement(name = "PaymentRequest")
-public class ApartmentDto {
+@XmlRootElement(name = "data")
+public class ApartmentDto implements Serializable {
     private int id;
     private Boolean active;
     private Date createdAt;

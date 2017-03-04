@@ -1,9 +1,11 @@
 package com.gsd.gatorrenter.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by Intesar on 3/4/2017.
  */
-public class UserRoleDto {
+public class UserRoleDto implements Serializable {
 
     private int id;
     private String roleName;

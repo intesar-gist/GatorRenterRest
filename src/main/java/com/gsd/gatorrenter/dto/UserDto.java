@@ -3,12 +3,13 @@ package com.gsd.gatorrenter.dto;
 import com.gsd.gatorrenter.entity.UserRole;
 import com.gsd.gatorrenter.utils.EntityHelper;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * Created by Intesar on 3/4/2017.
  */
-public class UserDto {
+public class UserDto implements Serializable {
 
     private int id;
     private String firstName;
