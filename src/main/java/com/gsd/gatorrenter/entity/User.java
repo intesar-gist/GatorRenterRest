@@ -1,5 +1,9 @@
 package com.gsd.gatorrenter.entity;
 
+import com.gsd.gatorrenter.dto.UserDto;
+import com.gsd.gatorrenter.dto.UserRoleDto;
+import com.gsd.gatorrenter.utils.EntityHelper;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -8,7 +12,12 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "users")
+@NamedQueries({
+        @NamedQuery(name = "searchUserByEmail",
+                query = "select distinct u from User u where lower(u.email) = :userEmail AND u.isActive = 1 order by u.id ASC")
+})
 public class User {
+
     private int id;
     private String firstName;
     private String lastName;
@@ -118,6 +127,16 @@ public class User {
 
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    public UserDto asDto() {
+
+        UserRoleDto userRoleDto = EntityHelper.isNotNull(userRole) ? userRole.asDto() : null;
+
+        UserDto userDto = new UserDto(id, firstName, lastName, email, address, city,
+                created, isActive, userRoleDto);
+
+        return userDto;
     }
 
     @Override
