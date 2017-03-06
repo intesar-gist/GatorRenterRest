@@ -14,7 +14,9 @@ public enum ResponseStatusCode implements StatusCodeEnum<ResponseStatusCode> {
     NO_ROLE_DEFINED (5, "User role is not defined. "),
     UNAUTHENTICATED_CLIENT (6, "Invalid or no credentials (userId, password or Token) passed in request headers, cannot authenticate user. "),
     USER_NOT_FOUND (7, "User details not found in database"),
-    MISSING_USER_ID (8, "User ID is missing in the request body. ");
+    MISSING_USER_ID (8, "User ID is missing in the request body. "),
+    MISSING_OWNER_USER_ID (9, "Owner userID is missing who has added this apartment. "),
+    APT_DETAILS_MISSING (10, "Basic details missing (E.g: Title, Description, Address, Zip or dates for lease. ");
 
     private Integer code;
     private String statusMessage;

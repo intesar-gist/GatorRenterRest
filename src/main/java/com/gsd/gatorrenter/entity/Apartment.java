@@ -1,9 +1,11 @@
 package com.gsd.gatorrenter.entity;
 
 import com.gsd.gatorrenter.dto.ApartmentDto;
+import com.gsd.gatorrenter.utils.DateUtility;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created by Intesar on 3/3/2017.
@@ -41,6 +43,40 @@ public class Apartment {
     private Boolean flagged;
     private Double latitude;
     private User owner;
+
+    public Apartment() {
+    }
+
+    public Apartment(ApartmentDto apartmentDto) {
+        this.active = Boolean.TRUE;
+        this.createdAt = new Date(System.currentTimeMillis());
+        this.updatedAt = new Date(System.currentTimeMillis());
+        this.state = apartmentDto.getState();
+        this.addressLine1 = apartmentDto.getAddressLine1();
+        this.city = apartmentDto.getCity();
+        this.country = apartmentDto.getCountry();
+        this.zip = apartmentDto.getZip();
+        this.title = apartmentDto.getTitle();
+        this.description = apartmentDto.getDescription();
+        this.sqFeet = apartmentDto.getSqFeet();
+        this.nrBedrooms = apartmentDto.getNrBedrooms();
+        this.nrRoommates = apartmentDto.getNrRoommates();
+        this.nrBathrooms = apartmentDto.getNrBathrooms();
+        this.floor = apartmentDto.getFloor();
+        this.privateRoom = apartmentDto.getPrivateRoom();
+        this.privateBath = apartmentDto.getPrivateBath();
+        this.kitchenInApartment = apartmentDto.getKitchenInApartment();
+        this.hasSecurityDeposit = apartmentDto.getHasSecurityDeposit();
+        this.creditScoreCheck = apartmentDto.getCreditScoreCheck();
+        this.monthlyRent = apartmentDto.getMonthlyRent();
+        this.securityDeposit = apartmentDto.getSecurityDeposit();
+        this.availableSince = DateUtility.convertToDate(apartmentDto.getAvailableSince());
+        this.leaseEndDate = DateUtility.convertToDate(apartmentDto.getLeaseEndDate());
+        this.longitude = apartmentDto.getLongitude();
+        this.flagged = apartmentDto.getFlagged();
+        this.latitude = apartmentDto.getLatitude();
+        this.owner = new User(apartmentDto.getUserDto().getId());
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -28,7 +28,9 @@ public class UserController extends BaseController {
     @Produces({MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_XML})
     @Path("/addNewUser")
-    public Response addNewUser(@HeaderParam("signedInUserId") Integer signedInUserId, @HeaderParam("accessToken") String accessToken, UserDto userDto) {
+    public Response addNewUser(@HeaderParam("signedInUserId") Integer signedInUserId,
+                               @HeaderParam("accessToken") String accessToken,
+                               UserDto userDto) {
 
         if(!authenticateClientToken(signedInUserId, accessToken)) {
             return ResponseDto.unauthenticClientResponse();
@@ -43,7 +45,9 @@ public class UserController extends BaseController {
     @Produces({MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_XML})
     @Path("/updateUser")
-    public Response updateUser(@HeaderParam("signedInUserId") Integer signedInUserId, @HeaderParam("accessToken") String accessToken, UserDto userDto) {
+    public Response updateUser(@HeaderParam("signedInUserId") Integer signedInUserId,
+                               @HeaderParam("accessToken") String accessToken,
+                               UserDto userDto) {
 
         if(!authenticateClientToken(signedInUserId, accessToken)) {
             return ResponseDto.unauthenticClientResponse();

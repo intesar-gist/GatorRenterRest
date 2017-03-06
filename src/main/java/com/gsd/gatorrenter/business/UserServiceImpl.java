@@ -5,7 +5,6 @@ import com.gsd.gatorrenter.dto.ResponseDto;
 import com.gsd.gatorrenter.dto.UserDto;
 import com.gsd.gatorrenter.dto.UserTokenDto;
 import com.gsd.gatorrenter.entity.User;
-import com.gsd.gatorrenter.entity.UserToken;
 import com.gsd.gatorrenter.manager.UserManager;
 import com.gsd.gatorrenter.manager.UserTokenManager;
 import com.gsd.gatorrenter.utils.EntityHelper;

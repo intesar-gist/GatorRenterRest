@@ -3,23 +3,25 @@ package com.gsd.gatorrenter.dto;
 import com.gsd.gatorrenter.entity.Apartment;
 import com.gsd.gatorrenter.utils.EntityHelper;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * Created by Intesar on 3/4/2017.
  */
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "apartmentDetails")
 public class ApartmentDto implements Serializable {
     private int id;
     private Boolean active;
-    private Date createdAt;
-    private Date updatedAt;
+    private String createdAt;
+
+    @XmlTransient
+    private String updatedAt;
+
     private String state;
     private String addressLine1;
-    private String addressLine2;
     private String city;
     private String country;
     private String zip;
@@ -37,12 +39,14 @@ public class ApartmentDto implements Serializable {
     private Boolean creditScoreCheck;
     private Double monthlyRent;
     private Double securityDeposit;
-    private Date availableSince;
-    private Date leaseEndDate;
+    private String availableSince;
+    private String leaseEndDate;
     private Double longitude;
     private Boolean flagged;
     private Double latitude;
-    private UserDto owner;
+
+    @XmlElement(name = "owner")
+    private UserDto userDto;
 
     public ApartmentDto() {
     }
@@ -63,19 +67,19 @@ public class ApartmentDto implements Serializable {
         this.active = active;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -93,14 +97,6 @@ public class ApartmentDto implements Serializable {
 
     public void setAddressLine1(String addressLine1) {
         this.addressLine1 = addressLine1;
-    }
-
-    public String getAddressLine2() {
-        return addressLine2;
-    }
-
-    public void setAddressLine2(String addressLine2) {
-        this.addressLine2 = addressLine2;
     }
 
     public String getCity() {
@@ -239,19 +235,19 @@ public class ApartmentDto implements Serializable {
         this.securityDeposit = securityDeposit;
     }
 
-    public Date getAvailableSince() {
+    public String getAvailableSince() {
         return availableSince;
     }
 
-    public void setAvailableSince(Date availableSince) {
+    public void setAvailableSince(String availableSince) {
         this.availableSince = availableSince;
     }
 
-    public Date getLeaseEndDate() {
+    public String getLeaseEndDate() {
         return leaseEndDate;
     }
 
-    public void setLeaseEndDate(Date leaseEndDate) {
+    public void setLeaseEndDate(String leaseEndDate) {
         this.leaseEndDate = leaseEndDate;
     }
 
@@ -279,22 +275,21 @@ public class ApartmentDto implements Serializable {
         this.latitude = latitude;
     }
 
-    public UserDto getOwner() {
-        return owner;
+    public UserDto getUserDto() {
+        return userDto;
     }
 
-    public void setOwner(UserDto owner) {
-        this.owner = owner;
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
     }
 
     public ApartmentDto(Apartment apartmentEntity) {
         this.id = apartmentEntity.getId();
         this.active = apartmentEntity.getActive();
-        this.createdAt = apartmentEntity.getCreatedAt();
-        this.updatedAt = apartmentEntity.getUpdatedAt();
+        this.createdAt = apartmentEntity.getCreatedAt().toString();
+        this.updatedAt = apartmentEntity.getUpdatedAt().toString();
         this.state = apartmentEntity.getState();
         this.addressLine1 = apartmentEntity.getAddressLine1();
-        this.addressLine2 = apartmentEntity.getAddressLine2();
         this.city = apartmentEntity.getCity();
         this.country = apartmentEntity.getCountry();
         this.zip = apartmentEntity.getZip();
@@ -312,14 +307,14 @@ public class ApartmentDto implements Serializable {
         this.creditScoreCheck = apartmentEntity.getCreditScoreCheck();
         this.monthlyRent = apartmentEntity.getMonthlyRent();
         this.securityDeposit = apartmentEntity.getSecurityDeposit();
-        this.availableSince = apartmentEntity.getAvailableSince();
-        this.leaseEndDate = apartmentEntity.getLeaseEndDate();
+        this.availableSince = apartmentEntity.getAvailableSince().toString();
+        this.leaseEndDate = apartmentEntity.getLeaseEndDate().toString();
         this.longitude = apartmentEntity.getLongitude();
         this.flagged = apartmentEntity.getFlagged();
         this.latitude = apartmentEntity.getLatitude();
 
         if(EntityHelper.isNotNull(apartmentEntity.getOwner())) {
-            this.owner = apartmentEntity.getOwner().asDto();
+            this.userDto = apartmentEntity.getOwner().asDto();
         }
     }
 }
