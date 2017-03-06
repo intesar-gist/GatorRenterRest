@@ -15,5 +15,7 @@ public interface UserManager {
     UserDto findUserDtoById(Integer userId);
     User findById(Integer userId);
     UserDto addNewUser(UserDto userDto) throws GatorRenterException;
+    void updateUser(User user) throws GatorRenterException;
+    void deleteUser(User user) throws GatorRenterException;
 
 }

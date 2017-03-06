@@ -41,12 +41,45 @@ public class UserServiceImpl implements UserService {
 
             verifyData(userDto);
 
+            //hashing password
+            userDto.setPassword(authentication.hashPassword(userDto.getPassword()));
+
             userDto = userManager.addNewUser(userDto);
 
             ResponseDto responseDto = ResponseDto.createSuccessResponse();
             responseDto.setUserDto(userDto);
 
             return responseDto;
+
+        } catch (GatorRenterException ex) {
+            LOGGER.error(ex);
+            return ResponseDto.createFailedResponse(ex.getCode(), ex.getMessage());
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            return ResponseDto.createFailedResponse(ResponseStatusCode.SOMETHING_UNEXPECTED_HAPPENED);
+        }
+    }
+
+    @Override
+    public ResponseDto updateUser(UserDto userDto)  {
+
+        try {
+
+            User user = verifyDataAndGetUser(userDto);
+
+            //if different password passed, update it
+            if(!authentication.isPwdSimilar(userDto.getPassword(), user.getPassword())){
+                user.setPassword(authentication.hashPassword(userDto.getPassword()));
+            }
+
+            user.setFirstName(userDto.getFirstName());
+            user.setLastName(userDto.getLastName());
+            user.setAddress(userDto.getAddress());
+            user.setCity(userDto.getCity());
+
+            userManager.updateUser(user);
+
+            return ResponseDto.createSuccessResponse();
 
         } catch (GatorRenterException ex) {
             LOGGER.error(ex);
@@ -70,6 +103,32 @@ public class UserServiceImpl implements UserService {
 
             //removing all the active tokens
             userTokenManager.removeUserTokens(userDto);
+
+            ResponseDto responseDto = ResponseDto.createSuccessResponse();
+            return responseDto;
+
+        } catch (GatorRenterException ex) {
+            LOGGER.error(ex);
+            return ResponseDto.createFailedResponse(ex.getCode(), ex.getMessage());
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            return ResponseDto.createFailedResponse(ResponseStatusCode.SOMETHING_UNEXPECTED_HAPPENED);
+        }
+    }
+
+    @Override
+    public ResponseDto deleteUser(Integer userId) {
+
+        try {
+
+            User user = userManager.findById(userId);
+
+            if(EntityHelper.isNull(user)) {
+                throw new GatorRenterException(ResponseStatusCode.USER_NOT_FOUND, userId);
+            }
+
+            userManager.deleteUser(user);
+            userTokenManager.removeUserTokens(new UserDto(userId));
 
             ResponseDto responseDto = ResponseDto.createSuccessResponse();
             return responseDto;
@@ -111,24 +170,48 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private void verifyData(UserDto userDto) throws GatorRenterException {
+    private User verifyDataAndGetUser(UserDto userDto) throws GatorRenterException {
 
-        if(!EntityHelper.isSet(userDto.getEmail()))
+        if(!EntityHelper.isSet(userDto.getId())) {
+            throw new GatorRenterException(ResponseStatusCode.MISSING_USER_ID);
+        }
+
+        if(!EntityHelper.isSet(userDto.getEmail())) {
             throw new GatorRenterException(ResponseStatusCode.EMAIL_MISSING);
+        }
 
         if(!EntityHelper.isSet(userDto.getPassword())) {
             throw new GatorRenterException(ResponseStatusCode.PWD_MISSING);
-        } else {
-            //hashing password
-            userDto.setPassword(authentication.hashPassword(userDto.getPassword()));
         }
 
-        if(EntityHelper.isNull(userDto.getUserRoleDto()))
+        User user = userManager.findById(userDto.getId());
+
+        if(EntityHelper.isNull(user)) {
+            throw new GatorRenterException(ResponseStatusCode.USER_NOT_FOUND, userDto.getId());
+        }
+
+        return user;
+
+    }
+
+    private void verifyData(UserDto userDto) throws GatorRenterException {
+
+        if(!EntityHelper.isSet(userDto.getEmail())) {
+            throw new GatorRenterException(ResponseStatusCode.EMAIL_MISSING);
+        }
+
+        if(!EntityHelper.isSet(userDto.getPassword())) {
+            throw new GatorRenterException(ResponseStatusCode.PWD_MISSING);
+        }
+
+        if(EntityHelper.isNull(userDto.getUserRoleDto())) {
             throw new GatorRenterException(ResponseStatusCode.NO_ROLE_DEFINED);
+        }
 
         UserDto existingUser = userManager.findByEmail(userDto.getEmail());
-        if(EntityHelper.isNotNull(existingUser)) //mean user exits
+        if(EntityHelper.isNotNull(existingUser)) { //mean user exits
             throw new GatorRenterException(ResponseStatusCode.USER_ALREADY_EXISTS);
+        }
 
     }
 

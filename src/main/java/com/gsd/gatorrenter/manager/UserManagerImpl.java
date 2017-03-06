@@ -94,4 +94,31 @@ public class UserManagerImpl implements UserManager {
 
     }
 
+    @Override
+    public void updateUser(User user) throws GatorRenterException {
+        try {
+
+            entityManager.persist(user);
+
+
+        } catch (Exception ex) {
+            throw new GatorRenterException(ex);
+        }
+
+    }
+
+    @Override
+    public void deleteUser(User user) throws GatorRenterException {
+        try {
+
+            user.setIsActive(0);
+            entityManager.persist(user);
+
+
+        } catch (Exception ex) {
+            throw new GatorRenterException(ex);
+        }
+
+    }
+
 }

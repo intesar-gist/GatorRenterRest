@@ -31,7 +31,15 @@ public class GatorRenterAuthentication implements Authentication {
     public Boolean authenticate(String email, String password) {
         UserDto user = userManager.findByEmail(email);
         if (EntityHelper.isNotNull(user)) {
-            if (BCrypt.checkpw(password, user.getPassword())) {
+            return isPwdSimilar(password, user.getPassword());
+        }
+        return Boolean.FALSE;
+    }
+
+    @Override
+    public Boolean isPwdSimilar(String plainPwd, String hashedPwd) {
+        if(EntityHelper.isSet(plainPwd) && EntityHelper.isSet(hashedPwd)) {
+            if (BCrypt.checkpw(plainPwd, hashedPwd)) {
                 return Boolean.TRUE;
             }
         }

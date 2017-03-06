@@ -8,5 +8,6 @@ public interface Authentication {
     Boolean authenticate(String email, String password);
     Boolean authenticate(Integer userId, String accessToken);
     String hashPassword(String passwordPlaintext);
+    Boolean isPwdSimilar(String plainPwd, String hashedPwd);
 
 }

@@ -49,7 +49,23 @@ public class UserController extends BaseController {
             return ResponseDto.unauthenticClientResponse();
         }
 
-        ResponseDto responseDto = userService.addUser(userDto);
+        ResponseDto responseDto = userService.updateUser(userDto);
+        return Response.ok().entity(responseDto).build();
+
+    }
+
+    @DELETE
+    @Produces({MediaType.APPLICATION_XML})
+    @Path("/deleteUser/{userId}")
+    public Response deleteUser(@PathParam("userId") Integer userId,
+                               @HeaderParam("signedInUserId") Integer signedInUserId,
+                               @HeaderParam("accessToken") String accessToken) {
+
+        if(!authenticateClientToken(signedInUserId, accessToken)) {
+            return ResponseDto.unauthenticClientResponse();
+        }
+
+        ResponseDto responseDto = userService.deleteUser(userId);
         return Response.ok().entity(responseDto).build();
 
     }

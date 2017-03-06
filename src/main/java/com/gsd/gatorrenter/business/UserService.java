@@ -9,8 +9,9 @@ import com.gsd.gatorrenter.dto.UserDto;
 public interface UserService {
 
     ResponseDto addUser(UserDto userDto);
+    ResponseDto updateUser(UserDto userDto);
     ResponseDto getUserDetailsForLogin(String email);
     ResponseDto logoutUser(Integer userId);
-//    ResponseDto updateUser(UserDto userDto);
+    ResponseDto deleteUser(Integer userId);
 
 }

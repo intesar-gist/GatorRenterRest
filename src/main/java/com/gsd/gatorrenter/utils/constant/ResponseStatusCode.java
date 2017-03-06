@@ -13,7 +13,8 @@ public enum ResponseStatusCode implements StatusCodeEnum<ResponseStatusCode> {
     USER_ALREADY_EXISTS (4, "User already exists with similar email. "),
     NO_ROLE_DEFINED (5, "User role is not defined. "),
     UNAUTHENTICATED_CLIENT (6, "Invalid or no credentials (userId, password or Token) passed in request headers, cannot authenticate user. "),
-    USER_NOT_FOUND (7, "User details not found in database");
+    USER_NOT_FOUND (7, "User details not found in database"),
+    MISSING_USER_ID (8, "User ID is missing in the request body. ");
 
     private Integer code;
     private String statusMessage;

@@ -28,6 +28,10 @@ public class UserDto implements Serializable {
     public UserDto() {
     }
 
+    public UserDto(int id) {
+        this.id = id;
+    }
+
     public UserDto(int id, String firstName, String lastName, String email,  String password, String address, String city,
                    Timestamp created, Integer isActive, UserRoleDto userRoleDto) {
         this.id = id;
