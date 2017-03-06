@@ -16,10 +16,7 @@ public class ApartmentDto implements Serializable {
     private int id;
     private Boolean active;
     private String createdAt;
-
-    @XmlTransient
     private String updatedAt;
-
     private String state;
     private String addressLine1;
     private String city;
@@ -283,7 +280,7 @@ public class ApartmentDto implements Serializable {
         this.userDto = userDto;
     }
 
-    public ApartmentDto(Apartment apartmentEntity) {
+    public ApartmentDto(Apartment apartmentEntity, Boolean addUserDetails) {
         this.id = apartmentEntity.getId();
         this.active = apartmentEntity.getActive();
         this.createdAt = apartmentEntity.getCreatedAt().toString();
@@ -313,7 +310,7 @@ public class ApartmentDto implements Serializable {
         this.flagged = apartmentEntity.getFlagged();
         this.latitude = apartmentEntity.getLatitude();
 
-        if(EntityHelper.isNotNull(apartmentEntity.getOwner())) {
+        if(addUserDetails && EntityHelper.isNotNull(apartmentEntity.getOwner())) {
             this.userDto = apartmentEntity.getOwner().asDto();
         }
     }

@@ -57,6 +57,22 @@ public class ApartmentController extends BaseController {
 
 	@GET
 	@Produces({MediaType.APPLICATION_XML})
+	@Path("/getApartmentsByOwner/{ownerId}")
+	public Response getUserApartments(@HeaderParam("signedInUserId") Integer signedInUserId,
+									  @HeaderParam("accessToken") String accessToken,
+									  @PathParam("ownerId") Integer userId) {
+
+		if(!authenticateClientToken(signedInUserId, accessToken)) {
+			return ResponseDto.unauthenticClientResponse();
+		}
+
+		ResponseDto responseDto = apartmentService.getApartmentsByUserId(userId);
+		return Response.ok().entity(responseDto).build();
+
+	}
+
+	@GET
+	@Produces({MediaType.APPLICATION_XML})
 	@Path("/getApartment/{apartmentId}")
 	public Response getApartment(@PathParam("apartmentId") Integer apartmentId) {
 

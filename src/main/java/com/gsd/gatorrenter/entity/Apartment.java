@@ -12,6 +12,10 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "apartments")
+@NamedQueries({
+        @NamedQuery(name = "Apartment.getApartmentsByUserId",
+                query = "select a from Apartment a where a.owner.id = :userId and a.active = true ")
+})
 public class Apartment {
     private int id;
     private Boolean active;
@@ -379,8 +383,8 @@ public class Apartment {
         this.owner = owner;
     }
 
-    public ApartmentDto asDto(Apartment apartment) {
-        ApartmentDto apartmentDto = new ApartmentDto(apartment);
+    public ApartmentDto asDto(Boolean addUserDetails) {
+        ApartmentDto apartmentDto = new ApartmentDto(this, addUserDetails);
         return apartmentDto;
     }
 

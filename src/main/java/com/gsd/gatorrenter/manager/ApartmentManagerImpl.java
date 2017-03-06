@@ -9,7 +9,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Intesar on 3/4/2017.
@@ -24,17 +28,17 @@ public class ApartmentManagerImpl implements ApartmentManager {
     private EntityManager entityManager;
 
     @Override
-    public ApartmentDto getApartmentDtoById(Integer apartmentId) throws Exception {
+    public ApartmentDto getApartmentDtoById(Integer apartmentId) {
 
         Apartment apartment = getApartmentById(apartmentId);
         if(EntityHelper.isNotNull(apartment)) {
-            return apartment.asDto(apartment);
+            return apartment.asDto(false);
         }
         return null;
     }
 
     @Override
-    public Apartment getApartmentById(Integer apartmentId) throws Exception {
+    public Apartment getApartmentById(Integer apartmentId) {
         try {
 
             Apartment apartment = entityManager.find(Apartment.class, apartmentId);
@@ -45,6 +49,30 @@ public class ApartmentManagerImpl implements ApartmentManager {
 
             return null;
 
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            return null;
+        }
+    }
+
+    @Override
+    public List<ApartmentDto> getApartmentsByUserId(Integer userId) {
+        try {
+            TypedQuery<Apartment> query = entityManager.createNamedQuery("Apartment.getApartmentsByUserId", Apartment.class);
+            query.setParameter("userId", userId);
+
+            List<Apartment> apartments = query.getResultList();
+            List<ApartmentDto> apartmentDtos = new ArrayList<>();
+
+            if(EntityHelper.isListPopulated(apartments)) {
+                for (Apartment apartment : apartments) {
+                    apartmentDtos.add(apartment.asDto(false));
+                }
+            }
+
+            return apartmentDtos;
+        } catch (NoResultException e) {
+            return null;
         } catch (Exception ex) {
             LOGGER.error(ex);
             return null;

@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Intesar on 3/5/2017.
@@ -19,6 +20,9 @@ public class ResponseDto implements Serializable  {
 
     @XmlElement(name = "apartmentDetails")
     private ApartmentDto apartmentDto;
+
+    @XmlElement(name = "apartmentsList")
+    private List<ApartmentDto> apartmentsList;
 
     @XmlElement(name = "userDetails")
     private UserDto userDto;
@@ -65,6 +69,14 @@ public class ResponseDto implements Serializable  {
             setUserDto(this.userTokenDto.getUserDto());
         }
 
+    }
+
+    public List<ApartmentDto> getApartmentsList() {
+        return apartmentsList;
+    }
+
+    public void setApartmentsList(List<ApartmentDto> apartmentsList) {
+        this.apartmentsList = apartmentsList;
     }
 
     public static ResponseDto createSuccessResponse() {
