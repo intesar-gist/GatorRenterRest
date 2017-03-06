@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
  */
 @Path("/user")
 @Component
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     Authentication authentication;
@@ -24,22 +24,28 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    private Boolean authenticateClient(Integer signedInUserId, String accessToken) {
-
-        if (!authentication.authenticate(signedInUserId, accessToken)) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.TRUE;
-    }
-
     @POST
     @Produces({MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_XML})
     @Path("/addNewUser")
     public Response addNewUser(@HeaderParam("signedInUserId") Integer signedInUserId, @HeaderParam("accessToken") String accessToken, UserDto userDto) {
 
-        if(!authenticateClient(signedInUserId, accessToken)) {
+        if(!authenticateClientToken(signedInUserId, accessToken)) {
+            return ResponseDto.unauthenticClientResponse();
+        }
+
+        ResponseDto responseDto = userService.addUser(userDto);
+        return Response.ok().entity(responseDto).build();
+
+    }
+
+    @POST
+    @Produces({MediaType.APPLICATION_XML})
+    @Consumes({MediaType.APPLICATION_XML})
+    @Path("/updateUser")
+    public Response updateUser(@HeaderParam("signedInUserId") Integer signedInUserId, @HeaderParam("accessToken") String accessToken, UserDto userDto) {
+
+        if(!authenticateClientToken(signedInUserId, accessToken)) {
             return ResponseDto.unauthenticClientResponse();
         }
 
@@ -65,11 +71,7 @@ public class UserController {
     @GET
     @Produces({MediaType.APPLICATION_XML})
     @Path("/logout")
-    public Response login(@HeaderParam("signedInUserId") Integer signedInUserId, @HeaderParam("accessToken") String accessToken) {
-
-        if(!authenticateClient(signedInUserId, accessToken)) {
-            return ResponseDto.unauthenticClientResponse();
-        }
+    public Response login(@HeaderParam("signedInUserId") Integer signedInUserId) {
 
         ResponseDto responseDto = userService.logoutUser(signedInUserId);
         return Response.ok().entity(responseDto).build();
