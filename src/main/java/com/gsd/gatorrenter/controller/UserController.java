@@ -61,4 +61,18 @@ public class UserController {
         return Response.ok().entity(responseDto).build();
 
     }
+
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    @Path("/logout")
+    public Response login(@HeaderParam("signedInUserId") Integer signedInUserId, @HeaderParam("accessToken") String accessToken) {
+
+        if(!authenticateClient(signedInUserId, accessToken)) {
+            return ResponseDto.unauthenticClientResponse();
+        }
+
+        ResponseDto responseDto = userService.logoutUser(signedInUserId);
+        return Response.ok().entity(responseDto).build();
+
+    }
 }

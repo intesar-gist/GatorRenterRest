@@ -10,6 +10,7 @@ public interface UserService {
 
     ResponseDto addUser(UserDto userDto);
     ResponseDto getUserDetailsForLogin(String email);
+    ResponseDto logoutUser(Integer userId);
 //    ResponseDto updateUser(UserDto userDto);
 
 }

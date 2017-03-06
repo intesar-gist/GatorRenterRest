@@ -58,6 +58,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseDto logoutUser(Integer userId) {
+
+        try {
+
+            UserDto userDto = userManager.findUserDtoById(userId);
+
+            if(EntityHelper.isNull(userDto)) {
+                throw new GatorRenterException(ResponseStatusCode.USER_NOT_FOUND, userId);
+            }
+
+            //removing all the active tokens
+            userTokenManager.removeUserTokens(userDto);
+
+            ResponseDto responseDto = ResponseDto.createSuccessResponse();
+            return responseDto;
+
+        } catch (GatorRenterException ex) {
+            LOGGER.error(ex);
+            return ResponseDto.createFailedResponse(ex.getCode(), ex.getMessage());
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            return ResponseDto.createFailedResponse(ResponseStatusCode.SOMETHING_UNEXPECTED_HAPPENED);
+        }
+    }
+
+    @Override
     public ResponseDto getUserDetailsForLogin(String email) {
 
         try {
