@@ -98,8 +98,7 @@ public class UserManagerImpl implements UserManager {
     public void updateUser(User user) throws GatorRenterException {
         try {
 
-            entityManager.persist(user);
-
+            entityManager.merge(user);
 
         } catch (Exception ex) {
             throw new GatorRenterException(ex);
@@ -112,8 +111,7 @@ public class UserManagerImpl implements UserManager {
         try {
 
             user.setIsActive(0);
-            entityManager.persist(user);
-
+            entityManager.merge(user);
 
         } catch (Exception ex) {
             throw new GatorRenterException(ex);

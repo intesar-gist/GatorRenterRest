@@ -2,6 +2,7 @@ package com.gsd.gatorrenter.manager;
 
 import com.gsd.gatorrenter.dto.ApartmentDto;
 import com.gsd.gatorrenter.entity.Apartment;
+import com.gsd.gatorrenter.utils.EntityHelper;
 import com.gsd.gatorrenter.utils.exception.GatorRenterException;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
@@ -23,9 +24,31 @@ public class ApartmentManagerImpl implements ApartmentManager {
     private EntityManager entityManager;
 
     @Override
-    public ApartmentDto getApartmentById(Integer apartmentId) throws Exception {
-        Apartment apartment = entityManager.find(Apartment.class, apartmentId);
-        return apartment.asDto(apartment);
+    public ApartmentDto getApartmentDtoById(Integer apartmentId) throws Exception {
+
+        Apartment apartment = getApartmentById(apartmentId);
+        if(EntityHelper.isNotNull(apartment)) {
+            return apartment.asDto(apartment);
+        }
+        return null;
+    }
+
+    @Override
+    public Apartment getApartmentById(Integer apartmentId) throws Exception {
+        try {
+
+            Apartment apartment = entityManager.find(Apartment.class, apartmentId);
+
+            if(EntityHelper.isNotNull(apartment)) {
+                return apartment;
+            }
+
+            return null;
+
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            return null;
+        }
     }
 
     @Override
@@ -38,6 +61,19 @@ public class ApartmentManagerImpl implements ApartmentManager {
             apartmentDto.setId(apartment.getId());
 
             return apartmentDto;
+
+        } catch (Exception ex) {
+            throw new GatorRenterException(ex);
+        }
+
+    }
+
+    @Override
+    public void updateApartment(Apartment apartment, ApartmentDto apartmentDto) throws GatorRenterException {
+        try {
+
+            apartment.updateApartment(apartmentDto);
+            entityManager.merge(apartment);
 
         } catch (Exception ex) {
             throw new GatorRenterException(ex);

@@ -26,14 +26,31 @@ public class ApartmentController extends BaseController {
 	@Produces({MediaType.APPLICATION_XML})
 	@Path("/addNewApartment")
 	public Response addNewApartment(@HeaderParam("signedInUserId") Integer signedInUserId,
-									 @HeaderParam("accessToken") String accessToken,
-									 ApartmentDto apartmentDto) {
+									@HeaderParam("accessToken") String accessToken,
+									ApartmentDto apartmentDto) {
 
 		if(!authenticateClientToken(signedInUserId, accessToken)) {
 			return ResponseDto.unauthenticClientResponse();
 		}
 
 		ResponseDto responseDto = apartmentService.addNewApartment(apartmentDto);
+		return Response.ok().entity(responseDto).build();
+
+	}
+
+	@PUT
+	@Consumes({MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_XML})
+	@Path("/updateApartment")
+	public Response updateApartment(@HeaderParam("signedInUserId") Integer signedInUserId,
+									@HeaderParam("accessToken") String accessToken,
+									ApartmentDto apartmentDto) {
+
+		if(!authenticateClientToken(signedInUserId, accessToken)) {
+			return ResponseDto.unauthenticClientResponse();
+		}
+
+		ResponseDto responseDto = apartmentService.updateApartment(apartmentDto);
 		return Response.ok().entity(responseDto).build();
 
 	}

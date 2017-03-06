@@ -16,7 +16,9 @@ public enum ResponseStatusCode implements StatusCodeEnum<ResponseStatusCode> {
     USER_NOT_FOUND (7, "User details not found in database"),
     MISSING_USER_ID (8, "User ID is missing in the request body. "),
     MISSING_OWNER_USER_ID (9, "Owner userID is missing who has added this apartment. "),
-    APT_DETAILS_MISSING (10, "Basic details missing (E.g: Title, Description, Address, Zip or dates for lease. ");
+    APT_DETAILS_MISSING (10, "Basic details missing (E.g: Title, Description, Address, Zip or dates for lease. "),
+    MISSING_APARTMENT_ID (11, "Apartment ID is missing in the request body. "),
+    APARTMENT_NOT_FOUND (12, "Apartment details not found in database");
 
     private Integer code;
     private String statusMessage;

@@ -1,6 +1,7 @@
 package com.gsd.gatorrenter.manager;
 
 import com.gsd.gatorrenter.dto.ApartmentDto;
+import com.gsd.gatorrenter.entity.Apartment;
 import com.gsd.gatorrenter.utils.exception.GatorRenterException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface ApartmentManager {
 
-    ApartmentDto getApartmentById(Integer apartmentId) throws Exception;
+    ApartmentDto getApartmentDtoById(Integer apartmentId) throws Exception;
+    Apartment getApartmentById(Integer apartmentId) throws Exception;
     ApartmentDto addNewApartment(ApartmentDto apartmentDto) throws GatorRenterException;
+    void updateApartment(Apartment apartment, ApartmentDto apartmentDto) throws GatorRenterException;
 
 }

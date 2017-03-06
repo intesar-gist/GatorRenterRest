@@ -379,10 +379,37 @@ public class Apartment {
         this.owner = owner;
     }
 
-
     public ApartmentDto asDto(Apartment apartment) {
         ApartmentDto apartmentDto = new ApartmentDto(apartment);
         return apartmentDto;
+    }
+
+    public void updateApartment(ApartmentDto apartmentDto) {
+        this.updatedAt = new Date(System.currentTimeMillis());
+        this.state = apartmentDto.getState();
+        this.addressLine1 = apartmentDto.getAddressLine1();
+        this.city = apartmentDto.getCity();
+        this.country = apartmentDto.getCountry();
+        this.zip = apartmentDto.getZip();
+        this.title = apartmentDto.getTitle();
+        this.description = apartmentDto.getDescription();
+        this.sqFeet = apartmentDto.getSqFeet();
+        this.nrBedrooms = apartmentDto.getNrBedrooms();
+        this.nrRoommates = apartmentDto.getNrRoommates();
+        this.nrBathrooms = apartmentDto.getNrBathrooms();
+        this.floor = apartmentDto.getFloor();
+        this.privateRoom = apartmentDto.getPrivateRoom();
+        this.privateBath = apartmentDto.getPrivateBath();
+        this.kitchenInApartment = apartmentDto.getKitchenInApartment();
+        this.hasSecurityDeposit = apartmentDto.getHasSecurityDeposit();
+        this.creditScoreCheck = apartmentDto.getCreditScoreCheck();
+        this.monthlyRent = apartmentDto.getMonthlyRent();
+        this.securityDeposit = apartmentDto.getSecurityDeposit();
+        this.availableSince = DateUtility.convertToDate(apartmentDto.getAvailableSince());
+        this.leaseEndDate = DateUtility.convertToDate(apartmentDto.getLeaseEndDate());
+        this.longitude = apartmentDto.getLongitude();
+        this.latitude = apartmentDto.getLatitude();
+        this.flagged = apartmentDto.getFlagged();
     }
 
     @Override

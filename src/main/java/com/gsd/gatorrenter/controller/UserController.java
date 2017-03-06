@@ -41,7 +41,7 @@ public class UserController extends BaseController {
 
     }
 
-    @POST
+    @PUT
     @Produces({MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_XML})
     @Path("/updateUser")

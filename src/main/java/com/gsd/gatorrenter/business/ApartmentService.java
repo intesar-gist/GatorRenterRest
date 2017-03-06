@@ -9,4 +9,5 @@ import com.gsd.gatorrenter.dto.ResponseDto;
 public interface ApartmentService {
 
     ResponseDto addNewApartment(ApartmentDto apartmentDto);
+    ResponseDto updateApartment(ApartmentDto apartmentDto);
 }
