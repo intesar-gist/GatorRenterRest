@@ -22,7 +22,6 @@ import javax.ws.rs.core.Response;
 public class UserController {
 
     @Autowired
-    @Qualifier("gatorRenterAuthentication")
     Authentication authentication;
 
     @Autowired
