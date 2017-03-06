@@ -5,6 +5,7 @@ import com.gsd.gatorrenter.dto.UserTokenDto;
 import com.gsd.gatorrenter.manager.UserManager;
 import com.gsd.gatorrenter.manager.UserTokenManager;
 import com.gsd.gatorrenter.utils.EntityHelper;
+import com.gsd.gatorrenter.utils.exception.GatorRenterException;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +44,18 @@ public class GatorRenterAuthentication implements Authentication {
 
     @Override
     public Boolean authenticate(Integer userId, String accessToken) {
-        UserTokenDto userToken = userTokenManager.findByAccessTokenAndUserId(userId, accessToken);
-        if (EntityHelper.isNotNull(userToken)) {
-            return Boolean.TRUE;
+        try {
+
+            UserTokenDto userToken = userTokenManager.findByAccessTokenAndUserId(userId, accessToken);
+
+            if (EntityHelper.isNotNull(userToken)) {
+                return Boolean.TRUE;
+            }
+
+        } catch (GatorRenterException ex) {
+            LOGGER.error(ex);
         }
+
         return Boolean.FALSE;
     }
 

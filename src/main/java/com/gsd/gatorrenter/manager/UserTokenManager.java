@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserTokenManager {
 
     UserTokenDto addToken(UserDto userDto) throws GatorRenterException;
-    UserTokenDto findByAccessTokenAndUserId(Integer userId, String accessToken);
+    UserTokenDto findByAccessTokenAndUserId(Integer userId, String accessToken) throws GatorRenterException;
 
 
 }

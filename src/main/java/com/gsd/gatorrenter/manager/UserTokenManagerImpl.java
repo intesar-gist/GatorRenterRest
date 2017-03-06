@@ -5,6 +5,7 @@ import com.gsd.gatorrenter.dto.UserTokenDto;
 import com.gsd.gatorrenter.entity.User;
 import com.gsd.gatorrenter.entity.UserToken;
 import com.gsd.gatorrenter.utils.RandomGenerator;
+import com.gsd.gatorrenter.utils.constant.ResponseStatusCode;
 import com.gsd.gatorrenter.utils.exception.GatorRenterException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class UserTokenManagerImpl implements UserTokenManager {
     private UserManager userManager;
 
     @Override
-    public UserTokenDto findByAccessTokenAndUserId(Integer userId, String accessToken) {
+    public UserTokenDto findByAccessTokenAndUserId(Integer userId, String accessToken) throws GatorRenterException {
         TypedQuery<UserToken> query = entityManager.createNamedQuery("searchByAccessTokenUserId", UserToken.class);
         query.setParameter("accessToken", accessToken);
         query.setParameter("userId", userId);
@@ -46,7 +47,7 @@ public class UserTokenManagerImpl implements UserTokenManager {
             return null;
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return null;
+            throw new GatorRenterException(ResponseStatusCode.UNAUTHENTICATED_CLIENT);
         }
     }
 

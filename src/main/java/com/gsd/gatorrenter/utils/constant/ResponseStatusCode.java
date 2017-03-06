@@ -11,7 +11,8 @@ public enum ResponseStatusCode implements StatusCodeEnum<ResponseStatusCode> {
     EMAIL_MISSING (2, "Email is missing. "),
     PWD_MISSING (3, "Password is missing. "),
     USER_ALREADY_EXISTS (4, "User already exists with similar email. "),
-    NO_ROLE_DEFINED (5, "User role is not defined. ");
+    NO_ROLE_DEFINED (5, "User role is not defined. "),
+    UNAUTHENTICATED_CLIENT (6, "Invalid or no credentials (userId and Token) passed in request headers, cannot authenticate client. ");
 
     private Integer code;
     private String statusMessage;

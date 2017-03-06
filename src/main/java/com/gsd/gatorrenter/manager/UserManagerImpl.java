@@ -2,9 +2,9 @@ package com.gsd.gatorrenter.manager;
 
 import com.gsd.gatorrenter.dto.UserDto;
 import com.gsd.gatorrenter.entity.User;
+import com.gsd.gatorrenter.utils.EntityHelper;
 import com.gsd.gatorrenter.utils.exception.GatorRenterException;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +30,28 @@ public class UserManagerImpl implements UserManager {
         try {
             User user = entityManager.find(User.class, userId);
 
-            return user;
+            if(EntityHelper.isNotNull(user)) {
+                return user;
+            }
+
+            return null;
+
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            return null;
+        }
+    }
+
+    @Override
+    public UserDto findUserDtoById(Integer userId) {
+        try {
+            User user = entityManager.find(User.class, userId);
+
+            if(EntityHelper.isNotNull(user)) {
+                return user.asDto();
+            }
+
+            return null;
 
         } catch (Exception ex) {
             LOGGER.error(ex);

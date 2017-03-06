@@ -1,5 +1,6 @@
 package com.gsd.gatorrenter.dto;
 
+import javax.ws.rs.core.Response;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -22,9 +23,6 @@ public class ResponseDto implements Serializable  {
 
     @XmlElement(name = "status")
     private StatusDto statusDto;
-
-    public ResponseDto() {
-    }
 
     public ApartmentDto getApartmentDto() {
         return apartmentDto;
@@ -68,5 +66,10 @@ public class ResponseDto implements Serializable  {
 
     public static ResponseDto createFailedResponse(ResponseStatusCode responseStatusCode) {
         return createFailedResponse(responseStatusCode.getCode().toString(), responseStatusCode.getStatusMessage());
+    }
+
+    public static Response unauthenticClientResponse() {
+        ResponseDto responseDto = ResponseDto.createFailedResponse(ResponseStatusCode.UNAUTHENTICATED_CLIENT);
+        return Response.ok().entity(responseDto).build();
     }
 }

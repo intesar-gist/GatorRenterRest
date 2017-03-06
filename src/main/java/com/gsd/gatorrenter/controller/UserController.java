@@ -4,14 +4,13 @@ import com.gsd.gatorrenter.authentication.Authentication;
 import com.gsd.gatorrenter.business.UserService;
 import com.gsd.gatorrenter.dto.ResponseDto;
 import com.gsd.gatorrenter.dto.UserDto;
+import com.gsd.gatorrenter.utils.constant.ResponseStatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestHeader;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -29,14 +28,26 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    private Boolean authenticateClient(Integer signedInUserId, String accessToken) {
+
+        if (!authentication.authenticate(signedInUserId, accessToken)) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+    }
+
     @POST
     @Produces({MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_XML})
     @Path("/addNewUser")
-    public Response addNewUser(UserDto userDto) {
+    public Response addNewUser(@HeaderParam("signedInUserId") Integer signedInUserId, @HeaderParam("accessToken") String accessToken, UserDto userDto) {
+
+        if(!authenticateClient(signedInUserId, accessToken)) {
+            return ResponseDto.unauthenticClientResponse();
+        }
 
         ResponseDto responseDto = userService.addUser(userDto);
-
         return Response.ok().entity(responseDto).build();
 
     }

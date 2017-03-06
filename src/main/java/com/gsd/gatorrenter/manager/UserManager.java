@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserManager {
 
     UserDto findByEmail(String userEmail);
+    UserDto findUserDtoById(Integer userId);
     User findById(Integer userId);
     UserDto addNewUser(UserDto userDto) throws GatorRenterException;
 
