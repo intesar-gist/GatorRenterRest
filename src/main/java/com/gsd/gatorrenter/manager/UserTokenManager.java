@@ -14,6 +14,7 @@ public interface UserTokenManager {
 
     UserTokenDto addToken(UserDto userDto) throws GatorRenterException;
     UserTokenDto findByAccessTokenAndUserId(Integer userId, String accessToken) throws GatorRenterException;
+    void removeUserTokens(UserDto userDto) throws GatorRenterException;
 
 
 }

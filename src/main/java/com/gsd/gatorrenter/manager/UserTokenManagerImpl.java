@@ -4,6 +4,7 @@ import com.gsd.gatorrenter.dto.UserDto;
 import com.gsd.gatorrenter.dto.UserTokenDto;
 import com.gsd.gatorrenter.entity.User;
 import com.gsd.gatorrenter.entity.UserToken;
+import com.gsd.gatorrenter.utils.EntityHelper;
 import com.gsd.gatorrenter.utils.RandomGenerator;
 import com.gsd.gatorrenter.utils.constant.ResponseStatusCode;
 import com.gsd.gatorrenter.utils.exception.GatorRenterException;
@@ -17,6 +18,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Intesar on 3/5/2017.
@@ -35,7 +38,7 @@ public class UserTokenManagerImpl implements UserTokenManager {
 
     @Override
     public UserTokenDto findByAccessTokenAndUserId(Integer userId, String accessToken) throws GatorRenterException {
-        TypedQuery<UserToken> query = entityManager.createNamedQuery("searchByAccessTokenUserId", UserToken.class);
+        TypedQuery<UserToken> query = entityManager.createNamedQuery("UserToken.searchByAccessTokenUserId", UserToken.class);
         query.setParameter("accessToken", accessToken);
         query.setParameter("userId", userId);
         query.setFirstResult(0);
@@ -56,6 +59,9 @@ public class UserTokenManagerImpl implements UserTokenManager {
     public UserTokenDto addToken(UserDto userDto) throws GatorRenterException {
         try {
 
+            //remove already existing tokens first
+            removeUserTokens(userDto);
+
             User user = userManager.findById(userDto.getId());
 
             UserToken userToken = new UserToken(RandomGenerator.generateUid(), 1,
@@ -68,6 +74,29 @@ public class UserTokenManagerImpl implements UserTokenManager {
         } catch (Exception ex) {
             throw new GatorRenterException(ex);
         }
+    }
+
+
+    @Override
+    public void removeUserTokens(UserDto userDto) throws GatorRenterException {
+
+        try {
+            TypedQuery<UserToken> query = entityManager.createNamedQuery("UserToken.getUserTokensByUserId", UserToken.class);
+            query.setParameter("userId", userDto.getId());
+
+            List<UserToken> userTokens = query.getResultList();
+
+            if(EntityHelper.isListPopulated(userTokens)) {
+                for (UserToken userToken : userTokens) {
+                    entityManager.remove(userToken);
+                }
+            }
+
+        }catch (Exception ex) {
+            LOGGER.error(ex);
+            throw new GatorRenterException(ResponseStatusCode.SOMETHING_UNEXPECTED_HAPPENED, ex.getMessage());
+        }
+
     }
 
 }

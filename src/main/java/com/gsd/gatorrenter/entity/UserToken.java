@@ -11,7 +11,9 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "user_token")
 @NamedQueries({
-        @NamedQuery(name = "searchByAccessTokenUserId", query = "select distinct ut from UserToken ut where ut.active = 1 AND ut.accessToken = :accessToken AND ut.user.id = :userId order by ut.id ASC")
+        @NamedQuery(name = "UserToken.searchByAccessTokenUserId", query = "select distinct ut from UserToken ut where ut.active = 1 AND ut.accessToken = :accessToken " +
+                "AND ut.user.id = :userId order by ut.id ASC"),
+        @NamedQuery(name = "UserToken.getUserTokensByUserId", query = "select ut from UserToken ut where ut.user.id = :userId")
 })
 public class UserToken {
 
