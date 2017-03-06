@@ -121,4 +121,29 @@ public class ApartmentServiceImpl implements ApartmentService {
             return ResponseDto.createFailedResponse(ResponseStatusCode.SOMETHING_UNEXPECTED_HAPPENED);
         }
     }
+
+    @Override
+    public ResponseDto getApartmentById(Integer apartmentId) {
+
+        try {
+
+            ApartmentDto apartmentDto = apartmentManager.getApartmentDtoById(apartmentId);
+
+            if(EntityHelper.isNull(apartmentDto)) {
+                throw new GatorRenterException(ResponseStatusCode.APARTMENT_NOT_FOUND, apartmentId);
+            }
+
+            ResponseDto responseDto = ResponseDto.createSuccessResponse();
+            responseDto.setApartmentDto(apartmentDto);
+
+            return responseDto;
+
+        } catch (GatorRenterException ex) {
+            LOGGER.error(ex);
+            return ResponseDto.createFailedResponse(ex.getCode(), ex.getMessage());
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            return ResponseDto.createFailedResponse(ResponseStatusCode.SOMETHING_UNEXPECTED_HAPPENED);
+        }
+    }
 }

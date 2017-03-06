@@ -11,4 +11,5 @@ public interface ApartmentService {
     ResponseDto addNewApartment(ApartmentDto apartmentDto);
     ResponseDto updateApartment(ApartmentDto apartmentDto);
     ResponseDto getApartmentsByUserId(Integer userId);
+    ResponseDto getApartmentById(Integer apartmentId);
 }
