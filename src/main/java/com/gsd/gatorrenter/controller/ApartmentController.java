@@ -7,24 +7,25 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/health")
+@Path("/apartment")
 @Component
-public class HelloController {
+public class ApartmentController {
 
 	@Autowired
 	private ApartmentManager apartmentManager;
 
 	@GET
 	@Produces({MediaType.APPLICATION_XML})
-	@Path("/hello")
-	public Response getHello() {
+	@Path("/getApartment/{apartmentId}")
+	public Response getApartment(@PathParam("apartmentId") Integer apartmentId) {
 		ApartmentDto newoo = null;
 		try {
-			ApartmentDto apartmentDto = apartmentManager.getApartmentById(1);
+			ApartmentDto apartmentDto = apartmentManager.getApartmentById(apartmentId);
 			 newoo = apartmentDto;
 
 		} catch (Exception e) {

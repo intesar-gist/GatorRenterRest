@@ -1,10 +1,10 @@
 package com.gsd.gatorrenter.dto;
 
 import com.gsd.gatorrenter.entity.Apartment;
+import com.gsd.gatorrenter.utils.EntityHelper;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -12,7 +12,6 @@ import java.sql.Date;
  * Created by Intesar on 3/4/2017.
  */
 @XmlAccessorType(XmlAccessType.PROPERTY)
-@XmlRootElement(name = "data")
 public class ApartmentDto implements Serializable {
     private int id;
     private Boolean active;
@@ -318,10 +317,9 @@ public class ApartmentDto implements Serializable {
         this.longitude = apartmentEntity.getLongitude();
         this.flagged = apartmentEntity.getFlagged();
         this.latitude = apartmentEntity.getLatitude();
-        this.owner = new UserDto(apartmentEntity.getOwner().getId(), apartmentEntity.getOwner().getFirstName(),
-                apartmentEntity.getOwner().getLastName(), apartmentEntity.getOwner().getEmail(),
-                apartmentEntity.getOwner().getAddress(), apartmentEntity.getOwner().getCity(),
-                apartmentEntity.getOwner().getCreated(), apartmentEntity.getOwner().getIsActive(),
-                apartmentEntity.getOwner().getUserRole());
+
+        if(EntityHelper.isNotNull(apartmentEntity.getOwner())) {
+            this.owner = apartmentEntity.getOwner().asDto();
+        }
     }
 }

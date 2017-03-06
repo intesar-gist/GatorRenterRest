@@ -43,6 +43,7 @@ public class Apartment {
     private User owner;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     public int getId() {
         return id;

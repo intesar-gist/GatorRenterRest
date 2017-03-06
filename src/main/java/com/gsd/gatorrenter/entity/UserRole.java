@@ -1,5 +1,7 @@
 package com.gsd.gatorrenter.entity;
 
+import com.gsd.gatorrenter.dto.UserRoleDto;
+
 import javax.persistence.*;
 
 /**
@@ -16,7 +18,19 @@ public class UserRole {
     public UserRole() {
     }
 
+    public UserRole(UserRoleDto userRoleDto) {
+        this.id = userRoleDto.getId();
+        this.roleName = userRoleDto.getRoleName();
+        this.roleDescription = userRoleDto.getRoleDescription();
+    }
+
+    public UserRoleDto asDto() {
+        UserRoleDto userRoleDto = new UserRoleDto(id, roleName, roleDescription);
+        return userRoleDto;
+    }
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     public int getId() {
         return id;

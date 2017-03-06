@@ -13,6 +13,7 @@ public class Picture {
     private Apartment apartment;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     public int getId() {
         return id;

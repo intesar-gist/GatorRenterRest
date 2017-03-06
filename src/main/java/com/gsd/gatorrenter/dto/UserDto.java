@@ -1,14 +1,17 @@
 package com.gsd.gatorrenter.dto;
 
-import com.gsd.gatorrenter.entity.UserRole;
-import com.gsd.gatorrenter.utils.EntityHelper;
-
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * Created by Intesar on 3/4/2017.
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "userDetails")
 public class UserDto implements Serializable {
 
     private int id;
@@ -20,13 +23,15 @@ public class UserDto implements Serializable {
     private String city;
     private Timestamp created;
     private Integer isActive;
-    private UserRoleDto userRole;
+
+    @XmlElement(name = "userRole")
+    private UserRoleDto userRoleDto;
 
     public UserDto() {
     }
 
     public UserDto(int id, String firstName, String lastName, String email, String address, String city,
-                   Timestamp created, Integer isActive, UserRole userRole) {
+                   Timestamp created, Integer isActive, UserRoleDto userRoleDto) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,10 +40,7 @@ public class UserDto implements Serializable {
         this.city = city;
         this.created = created;
         this.isActive = isActive;
-
-        if(EntityHelper.isNotNull(userRole)) {
-            this.userRole = new UserRoleDto(userRole.getId(), userRole.getRoleName(), userRole.getRoleDescription());
-        }
+        this.userRoleDto = userRoleDto;
     }
 
     public int getId() {
@@ -113,11 +115,11 @@ public class UserDto implements Serializable {
         this.isActive = isActive;
     }
 
-    public UserRoleDto getUserRole() {
-        return userRole;
+    public UserRoleDto getUserRoleDto() {
+        return userRoleDto;
     }
 
-    public void setUserRole(UserRoleDto userRole) {
-        this.userRole = userRole;
+    public void setUserRoleDto(UserRoleDto userRoleDto) {
+        this.userRoleDto = userRoleDto;
     }
 }

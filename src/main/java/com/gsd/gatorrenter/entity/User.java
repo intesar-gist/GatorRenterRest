@@ -29,7 +29,23 @@ public class User {
     private Integer isActive;
     private UserRole userRole;
 
+    public User() {
+    }
+
+    public User(UserDto userDto) {
+        this.firstName = userDto.getFirstName();
+        this.lastName = userDto.getLastName();
+        this.email = userDto.getEmail();
+        this.password = userDto.getPassword();
+        this.address = userDto.getAddress();
+        this.city = userDto.getCity();
+        this.created = new Timestamp(System.currentTimeMillis());
+        this.isActive = 1;
+        this.userRole = new UserRole(userDto.getUserRoleDto());
+    }
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "uid")
     public int getId() {
         return id;
