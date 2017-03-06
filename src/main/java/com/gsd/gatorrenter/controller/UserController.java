@@ -4,11 +4,8 @@ import com.gsd.gatorrenter.authentication.Authentication;
 import com.gsd.gatorrenter.business.UserService;
 import com.gsd.gatorrenter.dto.ResponseDto;
 import com.gsd.gatorrenter.dto.UserDto;
-import com.gsd.gatorrenter.utils.constant.ResponseStatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

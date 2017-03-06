@@ -1,12 +1,13 @@
 package com.gsd.gatorrenter.dto;
 
+import com.gsd.gatorrenter.utils.constant.ResponseStatusCode;
+
 import javax.ws.rs.core.Response;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import com.gsd.gatorrenter.utils.constant.*;
 
 /**
  * Created by Intesar on 3/5/2017.
