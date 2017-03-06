@@ -47,4 +47,18 @@ public class UserController {
         return Response.ok().entity(responseDto).build();
 
     }
+
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    @Path("/login")
+    public Response login(@HeaderParam("email") String email, @HeaderParam("password") String password) {
+
+        if (!authentication.authenticate(email, password)) {
+            return ResponseDto.unauthenticClientResponse();
+        }
+
+        ResponseDto responseDto = userService.getUserDetailsForLogin(email);
+        return Response.ok().entity(responseDto).build();
+
+    }
 }

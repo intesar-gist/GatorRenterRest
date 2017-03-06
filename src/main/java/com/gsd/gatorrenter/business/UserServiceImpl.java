@@ -3,6 +3,9 @@ package com.gsd.gatorrenter.business;
 import com.gsd.gatorrenter.authentication.Authentication;
 import com.gsd.gatorrenter.dto.ResponseDto;
 import com.gsd.gatorrenter.dto.UserDto;
+import com.gsd.gatorrenter.dto.UserTokenDto;
+import com.gsd.gatorrenter.entity.User;
+import com.gsd.gatorrenter.entity.UserToken;
 import com.gsd.gatorrenter.manager.UserManager;
 import com.gsd.gatorrenter.manager.UserTokenManager;
 import com.gsd.gatorrenter.utils.EntityHelper;
@@ -40,10 +43,36 @@ public class UserServiceImpl implements UserService {
 
             userDto = userManager.addNewUser(userDto);
 
-            userTokenManager.addToken(userDto);
-
             ResponseDto responseDto = ResponseDto.createSuccessResponse();
             responseDto.setUserDto(userDto);
+
+            return responseDto;
+
+        } catch (GatorRenterException ex) {
+            LOGGER.error(ex);
+            return ResponseDto.createFailedResponse(ex.getCode(), ex.getMessage());
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            return ResponseDto.createFailedResponse(ResponseStatusCode.SOMETHING_UNEXPECTED_HAPPENED);
+        }
+    }
+
+    @Override
+    public ResponseDto getUserDetailsForLogin(String email) {
+
+        try {
+
+            UserDto user = userManager.findByEmail(email);
+
+            if(EntityHelper.isNull(user)) {
+                throw new GatorRenterException(ResponseStatusCode.USER_NOT_FOUND, email);
+            }
+
+            //generating token and returning back with user details for login
+            UserTokenDto userTokenDto = userTokenManager.addToken(user);
+
+            ResponseDto responseDto = ResponseDto.createSuccessResponse();
+            responseDto.setUserTokenDto(userTokenDto);
 
             return responseDto;
 

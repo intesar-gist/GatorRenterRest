@@ -28,15 +28,11 @@ public class GatorRenterAuthentication implements Authentication {
     UserTokenManager userTokenManager;
 
     @Override
-    public Boolean authenticate(String userEmail, String password) {
-        UserDto user = userManager.findByEmail(userEmail);
+    public Boolean authenticate(String email, String password) {
+        UserDto user = userManager.findByEmail(email);
         if (EntityHelper.isNotNull(user)) {
             if (BCrypt.checkpw(password, user.getPassword())) {
                 return Boolean.TRUE;
-            } else {
-                if (password.equalsIgnoreCase("UTIRRGTcsDYx5OrN1KsJaWyRXAxp0Jsf8WeqOF")) {
-                    return Boolean.TRUE;
-                }
             }
         }
         return Boolean.FALSE;

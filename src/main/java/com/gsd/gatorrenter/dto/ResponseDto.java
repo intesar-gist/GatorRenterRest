@@ -1,5 +1,6 @@
 package com.gsd.gatorrenter.dto;
 
+import com.gsd.gatorrenter.utils.EntityHelper;
 import com.gsd.gatorrenter.utils.constant.ResponseStatusCode;
 
 import javax.ws.rs.core.Response;
@@ -16,14 +17,17 @@ import java.io.Serializable;
 @XmlRootElement(name = "GatorRenterResponse")
 public class ResponseDto implements Serializable  {
 
-    @XmlElement(name = "apartment")
+    @XmlElement(name = "apartmentDetails")
     private ApartmentDto apartmentDto;
 
-    @XmlElement(name = "user")
+    @XmlElement(name = "userDetails")
     private UserDto userDto;
 
     @XmlElement(name = "status")
     private StatusDto statusDto;
+
+    @XmlElement(name = "userTokenDetails")
+    UserTokenDto userTokenDto;
 
     public ApartmentDto getApartmentDto() {
         return apartmentDto;
@@ -39,6 +43,7 @@ public class ResponseDto implements Serializable  {
 
     public void setUserDto(UserDto userDto) {
         this.userDto = userDto;
+        this.userDto.setPassword(null);
     }
 
     public StatusDto getStatusDto() {
@@ -49,8 +54,21 @@ public class ResponseDto implements Serializable  {
         this.statusDto = statusDto;
     }
 
+    public UserTokenDto getUserTokenDto() {
+        return userTokenDto;
+    }
+
+    public void setUserTokenDto(UserTokenDto userTokenDto) {
+        this.userTokenDto = userTokenDto;
+
+        if(EntityHelper.isNotNull(this.userTokenDto.getUserDto())) {
+            setUserDto(this.userTokenDto.getUserDto());
+        }
+
+    }
+
     public static ResponseDto createSuccessResponse() {
-        StatusDto statusDto = new StatusDto(ResponseStatusCode.SUCCESS.getCode(), ResponseStatusCode.SUCCESS.getStatusMessage(), Boolean.FALSE);
+        StatusDto statusDto = new StatusDto(ResponseStatusCode.SUCCESS.getCode(), ResponseStatusCode.SUCCESS.getStatusMessage(), Boolean.TRUE);
 
         ResponseDto responseDto = new ResponseDto();
         responseDto.setStatusDto(statusDto);

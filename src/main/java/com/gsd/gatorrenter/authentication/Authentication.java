@@ -5,7 +5,7 @@ package com.gsd.gatorrenter.authentication;
  */
 public interface Authentication {
 
-    Boolean authenticate(String userName, String password);
+    Boolean authenticate(String email, String password);
     Boolean authenticate(Integer userId, String accessToken);
     String hashPassword(String passwordPlaintext);
 

@@ -1,9 +1,6 @@
 package com.gsd.gatorrenter.dto;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -21,6 +18,7 @@ public class UserDto implements Serializable {
     private String password;
     private String address;
     private String city;
+    @XmlTransient
     private Timestamp created;
     private Integer isActive;
 
@@ -30,12 +28,13 @@ public class UserDto implements Serializable {
     public UserDto() {
     }
 
-    public UserDto(int id, String firstName, String lastName, String email, String address, String city,
+    public UserDto(int id, String firstName, String lastName, String email,  String password, String address, String city,
                    Timestamp created, Integer isActive, UserRoleDto userRoleDto) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
         this.address = address;
         this.city = city;
         this.created = created;

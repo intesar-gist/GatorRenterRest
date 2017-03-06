@@ -84,7 +84,6 @@ public class UserManagerImpl implements UserManager {
             User user = new User(userDto);
             entityManager.persist(user);
 
-            userDto.setPassword(null);
             userDto.setId(user.getId());
 
             return userDto;

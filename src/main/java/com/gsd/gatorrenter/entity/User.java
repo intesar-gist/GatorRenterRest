@@ -32,6 +32,10 @@ public class User {
     public User() {
     }
 
+    public User(int id) {
+        this.id = id;
+    }
+
     public User(UserDto userDto) {
         this.firstName = userDto.getFirstName();
         this.lastName = userDto.getLastName();
@@ -149,7 +153,7 @@ public class User {
 
         UserRoleDto userRoleDto = EntityHelper.isNotNull(userRole) ? userRole.asDto() : null;
 
-        UserDto userDto = new UserDto(id, firstName, lastName, email, address, city,
+        UserDto userDto = new UserDto(id, firstName, lastName, email, password, address, city,
                 created, isActive, userRoleDto);
 
         return userDto;

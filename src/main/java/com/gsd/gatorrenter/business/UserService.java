@@ -9,7 +9,7 @@ import com.gsd.gatorrenter.dto.UserDto;
 public interface UserService {
 
     ResponseDto addUser(UserDto userDto);
+    ResponseDto getUserDetailsForLogin(String email);
 //    ResponseDto updateUser(UserDto userDto);
-//    ResponseDto getUserIfo(String userName);
 
 }

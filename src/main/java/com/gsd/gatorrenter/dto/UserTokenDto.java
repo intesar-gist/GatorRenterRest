@@ -1,17 +1,27 @@
 package com.gsd.gatorrenter.dto;
 
+import javax.xml.bind.annotation.*;
 import java.sql.Timestamp;
 
 /**
  * Created by Intesar on 3/5/2017.
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "loginDetails")
 public class UserTokenDto {
 
+    @XmlTransient
     private int id;
-    private String accessToken;
+    @XmlTransient
     private Integer active;
+    @XmlTransient
     private Timestamp creationDate;
+    @XmlTransient
     private Timestamp lastUpdated;
+
+    private String accessToken;
+
+    @XmlTransient
     private UserDto userDto;
 
     public UserTokenDto() {
