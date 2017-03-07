@@ -12,4 +12,8 @@ public interface ApartmentService {
     ResponseDto updateApartment(ApartmentDto apartmentDto);
     ResponseDto getApartmentsByUserId(Integer userId);
     ResponseDto getApartmentById(Integer apartmentId);
+    ResponseDto filterApartment( Boolean privateRoom, Boolean privateBath, Boolean kitchenInApartment, Boolean hasSecurityDeposit,
+                                 Boolean creditScoreCheck, Integer userId, Integer apartmentId, Double monthlyRentMin,
+                                 Double monthlyRentMax, String email, Integer pageNumber, Integer pageSize);
+
 }

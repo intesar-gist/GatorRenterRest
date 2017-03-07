@@ -16,6 +16,9 @@ public interface ApartmentManager {
     ApartmentDto getApartmentDtoById(Integer apartmentId);
     Apartment getApartmentById(Integer apartmentId);
     List<ApartmentDto> getApartmentsByUserId(Integer userId);
+    List<ApartmentDto> filterApartment(Boolean privateRoom, Boolean privateBath, Boolean kitchenInApartment, Boolean hasSecurityDeposit,
+                                       Boolean creditScoreCheck, Integer userId, Integer apartmentId, Double monthlyRentMin,
+                                       Double monthlyRentMax, String email, Integer pageNumber, Integer pageSize);
     ApartmentDto addNewApartment(ApartmentDto apartmentDto) throws GatorRenterException;
     void updateApartment(Apartment apartment, ApartmentDto apartmentDto) throws GatorRenterException;
 

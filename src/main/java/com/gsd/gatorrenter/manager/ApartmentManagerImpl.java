@@ -80,6 +80,43 @@ public class ApartmentManagerImpl implements ApartmentManager {
     }
 
     @Override
+    public List<ApartmentDto> filterApartment(Boolean privateRoom, Boolean privateBath, Boolean kitchenInApartment, Boolean hasSecurityDeposit,
+                                              Boolean creditScoreCheck, Integer userId, Integer apartmentId, Double monthlyRentMin,
+                                              Double monthlyRentMax, String email, Integer pageNumber, Integer pageSize) {
+        try {
+            TypedQuery<Apartment> query = entityManager.createNamedQuery("Apartment.getApartments", Apartment.class);
+            query.setParameter("privateRoom", privateRoom);
+            query.setParameter("privateBath", privateBath);
+            query.setParameter("kitchenInApartment", kitchenInApartment);
+            query.setParameter("hasSecurityDeposit", hasSecurityDeposit);
+            query.setParameter("creditScoreCheck", creditScoreCheck);
+            query.setParameter("userId", userId);
+            query.setParameter("apartmentId", apartmentId);
+            query.setParameter("monthlyRentMin", monthlyRentMin);
+            query.setParameter("monthlyRentMax", monthlyRentMax);
+            query.setParameter("email", EntityHelper.isSet(email) ? email : null);
+            query.setParameter("pageNumber", EntityHelper.notNull(pageNumber) ? pageNumber : 1);
+            query.setParameter("pageSize", EntityHelper.notNull(pageSize) ? pageSize : 10);
+
+            List<Apartment> apartments = query.getResultList();
+            List<ApartmentDto> apartmentDtos = new ArrayList<>();
+
+            if(EntityHelper.isListPopulated(apartments)) {
+                for (Apartment apartment : apartments) {
+                    apartmentDtos.add(apartment.asDto(false));
+                }
+            }
+
+            return apartmentDtos;
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            return null;
+        }
+    }
+
+    @Override
     public ApartmentDto addNewApartment(ApartmentDto apartmentDto) throws GatorRenterException {
         try {
 

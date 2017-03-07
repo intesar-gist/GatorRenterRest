@@ -5,7 +5,6 @@ import com.gsd.gatorrenter.utils.DateUtility;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Timestamp;
 
 /**
  * Created by Intesar on 3/3/2017.
@@ -14,7 +13,13 @@ import java.sql.Timestamp;
 @Table(name = "apartments")
 @NamedQueries({
         @NamedQuery(name = "Apartment.getApartmentsByUserId",
-                query = "select a from Apartment a where a.owner.id = :userId and a.active = true ")
+                    query = "select a from Apartment a where a.owner.id = :userId and a.active = true "),
+})
+@NamedNativeQueries({
+        @NamedNativeQuery( name = "Apartment.getApartments",
+                           query = "call getApartments(:privateRoom, :privateBath, :kitchenInApartment, :hasSecurityDeposit, :creditScoreCheck, " +
+                                   ":userId, :apartmentId, :monthlyRentMin, :monthlyRentMax, :email, null, :pageNumber, :pageSize)",
+                           resultClass = Apartment.class)
 })
 public class Apartment {
     private int id;

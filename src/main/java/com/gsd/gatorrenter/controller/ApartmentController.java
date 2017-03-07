@@ -3,7 +3,6 @@ package com.gsd.gatorrenter.controller;
 import com.gsd.gatorrenter.business.ApartmentService;
 import com.gsd.gatorrenter.dto.ApartmentDto;
 import com.gsd.gatorrenter.dto.ResponseDto;
-import com.gsd.gatorrenter.manager.ApartmentManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -83,6 +82,34 @@ public class ApartmentController extends BaseController {
 		}
 
 		ResponseDto responseDto = apartmentService.getApartmentById(apartmentId);
+		return Response.ok().entity(responseDto).build();
+
+	}
+
+	@GET
+	@Produces({MediaType.APPLICATION_XML})
+	@Path("/filterApartments/")
+	public Response filterApartment(@HeaderParam("signedInUserId") Integer signedInUserId,
+								 	@HeaderParam("accessToken") String accessToken,
+									@QueryParam("privateRoom") Boolean privateRoom,
+									@QueryParam("privateBath") Boolean privateBath,
+									@QueryParam("kitchenInApartment") Boolean kitchenInApartment,
+									@QueryParam("hasSecurityDeposit") Boolean hasSecurityDeposit,
+									@QueryParam("creditScoreCheck") Boolean creditScoreCheck,
+									@QueryParam("ownerId") Integer userId,
+									@QueryParam("apartmentId") Integer apartmentId,
+									@QueryParam("monthlyRentMin") Double monthlyRentMin,
+									@QueryParam("monthlyRentMax") Double monthlyRentMax,
+									@QueryParam("email") String email,
+									@QueryParam("pageNumber") Integer pageNumber,
+									@QueryParam("pageSize") Integer pageSize) {
+
+		if(!authenticateClientToken(signedInUserId, accessToken)) {
+			return ResponseDto.unauthenticClientResponse();
+		}
+
+		ResponseDto responseDto = apartmentService.filterApartment(privateRoom, privateBath, kitchenInApartment, hasSecurityDeposit,
+				creditScoreCheck, userId, apartmentId, monthlyRentMin, monthlyRentMax, email, pageNumber, pageSize);
 		return Response.ok().entity(responseDto).build();
 
 	}

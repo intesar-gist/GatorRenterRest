@@ -146,4 +146,25 @@ public class ApartmentServiceImpl implements ApartmentService {
             return ResponseDto.createFailedResponse(ResponseStatusCode.SOMETHING_UNEXPECTED_HAPPENED);
         }
     }
+
+    @Override
+    public ResponseDto filterApartment(Boolean privateRoom, Boolean privateBath, Boolean kitchenInApartment, Boolean hasSecurityDeposit,
+                                       Boolean creditScoreCheck, Integer userId, Integer apartmentId, Double monthlyRentMin,
+                                       Double monthlyRentMax, String email, Integer pageNumber, Integer pageSize) {
+
+        try {
+
+            List<ApartmentDto> apartments = apartmentManager.filterApartment(privateRoom, privateBath, kitchenInApartment, hasSecurityDeposit,
+                    creditScoreCheck, userId, apartmentId, monthlyRentMin, monthlyRentMax, email, pageNumber, pageSize);
+
+            ResponseDto responseDto = ResponseDto.createSuccessResponse();
+            responseDto.setApartmentsList(apartments);
+
+            return responseDto;
+
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            return ResponseDto.createFailedResponse(ResponseStatusCode.SOMETHING_UNEXPECTED_HAPPENED);
+        }
+    }
 }
