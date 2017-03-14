@@ -28,6 +28,10 @@ public class UserDto implements Serializable {
     public UserDto() {
     }
 
+    public UserDto(String password) {
+        this.password = password;
+    }
+
     public UserDto(int id) {
         this.id = id;
     }
