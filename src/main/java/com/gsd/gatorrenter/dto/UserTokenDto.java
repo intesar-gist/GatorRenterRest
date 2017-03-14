@@ -27,6 +27,10 @@ public class UserTokenDto {
     public UserTokenDto() {
     }
 
+    public UserTokenDto(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
     public UserTokenDto(int id, String accessToken, Integer active, Timestamp creationDate, Timestamp lastUpdated, UserDto userDto) {
         this.id = id;
         this.accessToken = accessToken;
