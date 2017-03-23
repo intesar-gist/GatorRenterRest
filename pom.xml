@@ -221,6 +221,7 @@
                         </resource>
                     </webResources>
 
+                    <!--  one can set the user property failOnMissingWebXml, so there is no need to further configure maven-war-plugin plugin -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
 
                     <archive>
@@ -237,7 +238,7 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
+                <artifactId>maven-surefire-plugin</artifactId> <!-- runs the unit tests of an application -->
                 <configuration>
                     <includes>
                         <include>**/*Tests.java</include>
