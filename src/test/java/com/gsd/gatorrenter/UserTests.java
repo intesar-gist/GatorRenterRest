@@ -98,7 +98,7 @@ public class UserTests {
 
         String plainPwd = "123";
         String hashPwd = authentication.hashPassword(plainPwd);
-        Boolean isPwdSimilar = authentication.isPwdSimilar(plainPwd, hashPwd+"88");
+        Boolean isPwdSimilar = authentication.isPwdSimilar(plainPwd, hashPwd+"888");
 
         Assert.assertTrue("Wrong hash, plain password couldn't be verified after hash", isPwdSimilar);
     }
