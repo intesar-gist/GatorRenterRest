@@ -93,13 +93,13 @@ public class UserTests {
         Assert.assertTrue("Wrong hash, plain password couldn't be verified after hash", isPwdSimilar);
     }
 
-//    @Test
-//    public void test_passwordHashingMechanismFails() throws Exception {
-//
-//        String plainPwd = "123";
-//        String hashPwd = authentication.hashPassword(plainPwd);
-//        Boolean isPwdSimilar = authentication.isPwdSimilar(plainPwd, hashPwd+"888");
-//
-//        Assert.assertTrue("Wrong hash, plain password couldn't be verified after hash", isPwdSimilar);
-//    }
+    @Test
+    public void test_passwordHashingMechanismFails() throws Exception {
+
+        String plainPwd = "123";
+        String hashPwd = authentication.hashPassword(plainPwd);
+        Boolean isPwdSimilar = authentication.isPwdSimilar(plainPwd, hashPwd+"888");
+
+        Assert.assertTrue("Wrong hash, plain password couldn't be verified after hash", isPwdSimilar);
+    }
 }
