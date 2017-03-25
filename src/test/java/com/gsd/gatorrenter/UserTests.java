@@ -40,7 +40,7 @@ public class UserTests {
     }
 
     @Test
-    public void test_authenticateUserCredentials() throws Exception {
+    public void test_authenticateUserCredentials_ShouldPass_CorrectCredential() throws Exception {
         Mockito
                 .when(userManager.findByEmail("intesar.haider@gmail.com"))
                 .thenReturn(userDto);
@@ -53,7 +53,56 @@ public class UserTests {
     }
 
     @Test
-    public void test_authorizeUserByToken() throws Exception {
+    public void test_authenticateUserCredentials_ShouldFail_wrongCredential() throws Exception {
+        Mockito
+                .when(userManager.findByEmail("intesar.haider@gmail.com"))
+                .thenReturn(userDto);
+
+        Boolean test = authentication.authenticate("intesar.haider@gmail.com", "123456789");
+        Assert.assertFalse("Return is TRUE, even though wrong credentials", test);
+    }
+
+    @Test
+    public void test_authenticateUserCredentials_ShouldFail_wrongEmailFormat() throws Exception {
+        Mockito
+                .when(userManager.findByEmail("intesar.haider@gmail.com"))
+                .thenReturn(userDto);
+
+        Boolean test = authentication.authenticate("intesar.haider@gmailcom", "12345678");
+        Assert.assertFalse("Return is True, user got authenticated using wrong email", test);
+    }
+
+    /***************************
+     * PASSWORD HASHING
+     * *************************
+     */
+
+    @Test
+    public void test_passwordHashingMechanism_ShouldPass_HashAndPlainPwdMatches() throws Exception {
+
+        String plainPwd = "123";
+        String hashPwd = authentication.hashPassword(plainPwd);
+        Boolean isPwdSimilar = authentication.isPwdSimilar(plainPwd, hashPwd);
+
+        Assert.assertTrue("Wrong hash, plain password couldn't be verified after hash", isPwdSimilar);
+    }
+
+    @Test
+    public void test_passwordHashingMechanism_ShouldFail_HashAndPlainPwdDoesNotMatch() throws Exception {
+
+        String plainPwd = "123";
+        String hashPwd = authentication.hashPassword(plainPwd);
+        Boolean isPwdSimilar = authentication.isPwdSimilar(plainPwd, hashPwd + "888");
+
+        Assert.assertFalse("Wrong hash, but still pwd got verified", isPwdSimilar);
+    }
+
+    /***************************
+     * TOKEN AUTHORIZATION START
+     * *************************
+     */
+    @Test
+    public void test_authorizeUserByToken_ShouldPass_correctUserIdAndTokenCombination() throws Exception {
 
         Mockito
                 .when(userTokenManager.findByAccessTokenAndUserId(1, "TEST-USER-TOKEN"))
@@ -66,8 +115,22 @@ public class UserTests {
         Mockito.verify(userTokenManager).findByAccessTokenAndUserId(1, "TEST-USER-TOKEN");
     }
 
+    @Test
+    public void test_authorizeUserByToken_ShouldFail_incorrectUserIdAndTokenCombination() throws Exception {
+
+        Mockito
+                .when(userTokenManager.findByAccessTokenAndUserId(1, "TEST-USER-TOKEN"))
+                .thenReturn(userTokenDto);
+
+        Boolean test = authentication.authenticate(2, "TEST-USER-TOKEN");
+        Assert.assertFalse("Return is TRUE, even though combination is wrong", test);
+
+        //to ensure whether a mock method is being called with required arguments or not (to pass the test)
+        Mockito.verify(userTokenManager).findByAccessTokenAndUserId(2, "TEST-USER-TOKEN");
+    }
+
     @Test(expected=GatorRenterException.class)
-    public void test_unauthorizeUserDueToEmptyToken() throws Exception {
+    public void test_authorizeUserByToken_ShouldFail_DueToEmptyToken() throws Exception {
 
         Mockito
                 .when(userTokenManager.findByAccessTokenAndUserId(1, ""))
@@ -81,25 +144,5 @@ public class UserTests {
         if(!test) {
             throw new GatorRenterException(ResponseStatusCode.UNAUTHENTICATED_CLIENT);
         }
-    }
-
-    @Test
-    public void test_passwordHashingMechanism() throws Exception {
-
-        String plainPwd = "123";
-        String hashPwd = authentication.hashPassword(plainPwd);
-        Boolean isPwdSimilar = authentication.isPwdSimilar(plainPwd, hashPwd);
-
-        Assert.assertTrue("Wrong hash, plain password couldn't be verified after hash", isPwdSimilar);
-    }
-
-    @Test
-    public void test_passwordHashingMechanismFails() throws Exception {
-
-        String plainPwd = "123";
-        String hashPwd = authentication.hashPassword(plainPwd);
-        Boolean isPwdSimilar = authentication.isPwdSimilar(plainPwd, hashPwd+"888");
-
-        Assert.assertTrue("Wrong hash, plain password couldn't be verified after hash", isPwdSimilar);
     }
 }

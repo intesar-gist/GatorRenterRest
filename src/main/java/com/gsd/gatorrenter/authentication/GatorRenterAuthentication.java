@@ -1,11 +1,12 @@
 package com.gsd.gatorrenter.authentication;
-
+import org.apache.commons.lang3.Validate.*;
 import com.gsd.gatorrenter.dto.UserDto;
 import com.gsd.gatorrenter.dto.UserTokenDto;
 import com.gsd.gatorrenter.manager.UserManager;
 import com.gsd.gatorrenter.manager.UserTokenManager;
 import com.gsd.gatorrenter.utils.EntityHelper;
 import com.gsd.gatorrenter.utils.exception.GatorRenterException;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,17 @@ public class GatorRenterAuthentication implements Authentication {
 
     @Override
     public Boolean authenticate(String email, String password) {
-        UserDto user = userManager.findByEmail(email);
-        if (EntityHelper.isNotNull(user)) {
-            return isPwdSimilar(password, user.getPassword());
+
+
+        EmailValidator emailvalidator = EmailValidator.getInstance();
+
+        if(emailvalidator.isValid(email)) {
+
+            UserDto user = userManager.findByEmail(email);
+            if (EntityHelper.isNotNull(user)) {
+                return isPwdSimilar(password, user.getPassword());
+            }
+
         }
         return Boolean.FALSE;
     }
