@@ -46,10 +46,10 @@ public class ApartmentServiceImpl implements ApartmentService {
                 throw new GatorRenterException(ResponseStatusCode.APT_DETAILS_MISSING);
             }
 
-            apartmentManager.addNewApartment(apartmentDto);
+            ApartmentDto newAp = apartmentManager.addNewApartment(apartmentDto);
 
             ResponseDto responseDto = ResponseDto.createSuccessResponse();
-            responseDto.setApartmentDto(apartmentDto);
+            responseDto.setApartmentDto(newAp);
 
             return responseDto;
 

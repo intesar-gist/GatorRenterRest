@@ -56,6 +56,13 @@ public class Apartment {
     public Apartment() {
     }
 
+    public Apartment(int id, String title, String description, User owner) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.owner = owner;
+    }
+
     public Apartment(ApartmentDto apartmentDto) {
         this.active = Boolean.TRUE;
         this.createdAt = new Date(System.currentTimeMillis());

@@ -48,6 +48,13 @@ public class ApartmentDto implements Serializable {
     public ApartmentDto() {
     }
 
+    public ApartmentDto(int id, String title, String description, UserDto userDto) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.userDto = userDto;
+    }
+
     public int getId() {
         return id;
     }

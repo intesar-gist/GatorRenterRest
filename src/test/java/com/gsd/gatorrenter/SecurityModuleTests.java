@@ -2,6 +2,9 @@ package com.gsd.gatorrenter;
 
 import com.gsd.gatorrenter.authentication.Authentication;
 import com.gsd.gatorrenter.authentication.GatorRenterAuthentication;
+import com.gsd.gatorrenter.business.UserService;
+import com.gsd.gatorrenter.business.UserServiceImpl;
+import com.gsd.gatorrenter.dto.ResponseDto;
 import com.gsd.gatorrenter.dto.UserDto;
 import com.gsd.gatorrenter.dto.UserTokenDto;
 import com.gsd.gatorrenter.manager.UserManager;
@@ -19,13 +22,16 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserTests {
+public class SecurityModuleTests {
 
     UserDto userDto = new UserDto("$2a$12$mHYX224P75GkN8zXcZ382untmc0fuUwGAXx1u5mcZh39vE0u9XYTq");
     UserTokenDto userTokenDto = new UserTokenDto("TEST-USER-TOKEN");
 
     @InjectMocks //@InjectMocks annotation is used to create and inject the mock object
     Authentication authentication = new GatorRenterAuthentication();
+
+    @InjectMocks
+    UserService userService = new UserServiceImpl();
 
     @Mock //@Mock annotation is used to create the mock object to be injected
     UserManager userManager;
@@ -39,6 +45,11 @@ public class UserTests {
 
     }
 
+
+    /**********************************
+     * CREDENTIAL AUTHENTICATION START
+     * ********************************
+     */
     @Test
     public void test_authenticateUserCredentials_ShouldPass_CorrectCredential() throws Exception {
         Mockito
@@ -144,5 +155,37 @@ public class UserTests {
         if(!test) {
             throw new GatorRenterException(ResponseStatusCode.UNAUTHENTICATED_CLIENT);
         }
+    }
+
+    /***************************
+     * LOGOUT TESTING START
+     * *************************
+     */
+    @Test
+    public void test_logoutUser_ShouldPass_correctUserIdGiven() throws Exception {
+
+        Mockito
+                .when(userManager.findUserDtoById(1))
+                .thenReturn(userDto);
+
+        ResponseDto responseDto = userService.logoutUser(1);
+        Assert.assertTrue("Unable to logout user", responseDto.getStatusDto().getSuccess());
+
+        //to ensure whether a mock method is being called with required arguments or not (to pass the test)
+        Mockito.verify(userManager).findUserDtoById(1);
+    }
+
+    @Test
+    public void test_logoutUser_ShouldFail_wrongUserIdGiven() throws Exception {
+
+        Mockito
+                .when(userManager.findUserDtoById(1))
+                .thenReturn(userDto);
+
+        ResponseDto responseDto = userService.logoutUser(2);
+        Assert.assertFalse("Failed because successfully logged out even though wrong id was given", responseDto.getStatusDto().getSuccess());
+
+        //to ensure whether a mock method is being called with required arguments or not (to pass the test)
+        Mockito.verify(userManager).findUserDtoById(2);
     }
 }
