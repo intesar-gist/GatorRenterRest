@@ -52,7 +52,6 @@ public class AdvertisementModuleTests {
     @Test
     public void test_addNewApartment_ShouldFail_basicDetailsAreNull() throws Exception {
         ApartmentDto apartmentDto = new ApartmentDto(1, null, null, new UserDto(12));
-
         ResponseDto responseDto = apartmentService.addNewApartment(apartmentDto);
 
         Assert.assertFalse("Apartment added successfully, should not have done coz empty details were passed", responseDto.getStatusDto().getSuccess());
