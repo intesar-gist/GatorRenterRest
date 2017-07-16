@@ -74,7 +74,6 @@ public class AdvertisementModuleTests {
         Assert.assertTrue("Apartment ID is not 183, apartment couldn't be added properly", responseDto.getApartmentDto().getId() == 183);
     }
 
-
     /***********************
      * Update APARTMENT TESTS
      * *********************
