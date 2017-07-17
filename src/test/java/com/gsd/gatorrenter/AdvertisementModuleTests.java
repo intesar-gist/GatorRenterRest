@@ -91,13 +91,14 @@ public class AdvertisementModuleTests {
         Assert.assertFalse("Apartment updated successfully, should not have done coz wrong apartment id was passed", responseDto.getStatusDto().getSuccess());
         Assert.assertTrue("Response code is not 12, something else happen", 12 == responseDto.getStatusDto().getStatusCode());
     }
-//    @Test
-//    public void test_updateApartment_ShouldFail_unknownExceptionWhileSavingInDB() throws Exception {
-//        ApartmentDto apartmentDto = new ApartmentDto(12, "This is new apartment", "this is description", null);
-//
-//        ResponseDto responseDto = apartmentService.updateApartment(apartmentDto);
-//
-//        Assert.assertFalse("Apartment updated successfully, should not have done coz db went down", responseDto.getStatusDto().getSuccess());
-//        Assert.assertTrue("Response code is not -1, something else happen", -1 == responseDto.getStatusDto().getStatusCode());
-//    }
+
+    @Test
+    public void test_updateApartment_ShouldFail_unknownExceptionWhileSavingInDB() throws Exception {
+        ApartmentDto apartmentDto = new ApartmentDto(12, "This is new apartment", "this is description", null);
+
+        ResponseDto responseDto = apartmentService.updateApartment(apartmentDto);
+
+        Assert.assertFalse("Apartment updated successfully, should not have done coz db went down", responseDto.getStatusDto().getSuccess());
+        Assert.assertTrue("Response code is not -1, something else happen", -1 == responseDto.getStatusDto().getStatusCode());
+    }
 }
